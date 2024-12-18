@@ -1,14 +1,14 @@
-# АНАЛИЗ ДАННЫХ И ИСКУССТВЕННЫЙ ИНТЕЛЛЕКТ [in GameDev]
-Отчет по лабораторной работе #1 выполнил(а):
-- Иванова Ивана Варкравтовна
-- РИ000024
-Отметка о выполнении заданий (заполняется студентом):
+# Работа #2. Нужно больше золота
+Отчет по лабораторной работе #2 выполнил(а):
+- Афонасьев Артём Ильич
+- РИ-230948
+Отметка о выполнении заданий:
 
 | Задание | Выполнение | Баллы |
 | ------ | ------ | ------ |
-| Задание 1 | # | 60 |
-| Задание 2 | # | 20 |
-| Задание 3 | # | 20 |
+| Задание 1 | * | 0 |
+| Задание 2 | * | 0 |
+| Задание 3 | * | 0 |
 
 знак "*" - задание выполнено; знак "#" - задание не выполнено;
 
@@ -35,104 +35,38 @@
 - ✨Magic ✨
 
 ## Цель работы
-Ознакомиться с основными операторами зыка Python на примере реализации линейной регрессии.
+Научиться передавать в Unity данные из Google Sheets с помощью Python.
 
 ## Задание 1
-### Пошагово выполнить каждый пункт раздела "ход работы" с описанием и примерами реализации задач
-Ход работы:
-- Произвести подготовку данных для работы с алгоритмом линейной регрессии. 10 видов данных были установлены случайным образом, и данные находились в линейной зависимости. Данные преобразуются в формат массива, чтобы их можно было вычислить напрямую при использовании умножения и сложения.
+### Написать программу Hello World на Python с запуском в Jupiter Notebook.
+![image](https://github.com/user-attachments/assets/9334e42a-76f5-4f04-94b7-1bbf5b2edbb4)
 
-```py
-
-In [ ]:
-#Import the required modules, numpy for calculation, and Matplotlib for drawing
-import numpy as np
-import matplotlib.pyplot as plt
-#This code is for jupyter Notebook only
-%matplotlib inline
-
-# define data, and change list to array
-x = [3,21,22,34,54,34,55,67,89,99]
-x = np.array(x)
-y = [2,22,24,65,79,82,55,130,150,199]
-y = np.array(y)
-
-#Show the effect of a scatter plot
-plt.scatter(x,y)
-
-```
-
-- Определите связанные функции. Функция модели: определяет модель линейной регрессии wx+b. Функция потерь: функция потерь среднеквадратичной ошибки. Функция оптимизации: метод градиентного спуска для нахождения частных производных w и b.
 
 
 ## Задание 2
-### Должна ли величина loss стремиться к нулю при изменении исходных данных? Ответьте на вопрос, приведите пример выполнения кода, который подтверждает ваш ответ.
+### Написать программу Hello World на C# с запуском на Unity.
+![image](https://github.com/user-attachments/assets/58efe112-489e-43b5-950f-cc0adec80ce3)
 
-- Перечисленные в этом туториале действия могут быть выполнены запуском на исполнение скрипт-файла, доступного [в репозитории](https://github.com/Den1sovDm1triy/hfss-scripting/blob/main/ScreatingSphereInAEDT.py).
-- Для запуска скрипт-файла откройте Ansys Electronics Desktop. Перейдите во вкладку [Automation] - [Run Script] - [Выберите файл с именем ScreatingSphereInAEDT.py из репозитория].
+![image](https://github.com/user-attachments/assets/eafe56ae-021a-48e8-9e8d-c1db4e193e35)
 
-```py
-
-import ScriptEnv
-ScriptEnv.Initialize("Ansoft.ElectronicsDesktop")
-oDesktop.RestoreWindow()
-oProject = oDesktop.NewProject()
-oProject.Rename("C:/Users/denisov.dv/Documents/Ansoft/SphereDIffraction.aedt", True)
-oProject.InsertDesign("HFSS", "HFSSDesign1", "HFSS Terminal Network", "")
-oDesign = oProject.SetActiveDesign("HFSSDesign1")
-oEditor = oDesign.SetActiveEditor("3D Modeler")
-oEditor.CreateSphere(
-	[
-		"NAME:SphereParameters",
-		"XCenter:="		, "0mm",
-		"YCenter:="		, "0mm",
-		"ZCenter:="		, "0mm",
-		"Radius:="		, "1.0770329614269mm"
-	], 
-)
-
-```
 
 ## Задание 3
-### Какова роль параметра Lr? Ответьте на вопрос, приведите пример выполнения кода, который подтверждает ваш ответ. В качестве эксперимента можете изменить значение параметра.
+### Какую сущность(и) мы могли бы обучить ML-Agent-ом для того, чтобы создать более качественный игровой опыт?
+Экономическая система магазина – обучение магазина не только адаптировать цены, но и динамически изменять доступные предметы. Например, агент может анализировать эффективность игрока и, если он играет слишком хорошо, предлагать более дорогие или редкие улучшения, чтобы поддерживать баланс. Пример подобной системы можно найти в Hades, где магазин предлагает товары, основываясь на прогрессе и успехах игрока.
 
-- Перечисленные в этом туториале действия могут быть выполнены запуском на исполнение скрипт-файла, доступного [в репозитории](https://github.com/Den1sovDm1triy/hfss-scripting/blob/main/ScreatingSphereInAEDT.py).
-- Для запуска скрипт-файла откройте Ansys Electronics Desktop. Перейдите во вкладку [Automation] - [Run Script] - [Выберите файл с именем ScreatingSphereInAEDT.py из репозитория].
+Поведение элитных зомби – обученные ML-Agent элитные враги могут стать ключевыми элементами игровых волн. Эти зомби могут, к примеру, руководить обычными зомби, усиливая их атаку, или наоборот — защищать своих товарищей щитами. Подобная механика была успешно применена в Resident Evil 3 с «немезидой», который преследовал игрока и адаптировал свою тактику к поведению игрока.
 
-```py
+Поведение зомби – ML-Agent может обучать разные типы зомби для создания вариативного поведения: некоторые будут агрессивными, стремясь быстро сблизиться с игроком, другие будут осторожнее, прятаться за препятствиями, чтобы избежать прямого огня. Для примера, в Left 4 Dead используется «AI Director», который динамически управляет волнами зомби и создает напряжение в зависимости от поведения игроков.
 
-import ScriptEnv
-ScriptEnv.Initialize("Ansoft.ElectronicsDesktop")
-oDesktop.RestoreWindow()
-oProject = oDesktop.NewProject()
-oProject.Rename("C:/Users/denisov.dv/Documents/Ansoft/SphereDIffraction.aedt", True)
-oProject.InsertDesign("HFSS", "HFSSDesign1", "HFSS Terminal Network", "")
-oDesign = oProject.SetActiveDesign("HFSSDesign1")
-oEditor = oDesign.SetActiveEditor("3D Modeler")
-oEditor.CreateSphere(
-	[
-		"NAME:SphereParameters",
-		"XCenter:="		, "0mm",
-		"YCenter:="		, "0mm",
-		"ZCenter:="		, "0mm",
-		"Radius:="		, "1.0770329614269mm"
-	], 
-)
-
-```
+Адаптация сложности волн – агент может динамически изменять количество, типы зомби и их характеристики в зависимости от навыков игрока. Это позволит избежать чрезмерной легкости или сложности игры. В XCOM применяется подобная система: если игрок слишком успешен, игра усиливает врагов или добавляет новые условия для усложнения миссий. ML-Agent в зомби-шутере мог бы увеличить скорость врагов, добавить им броню или даже новые способности для усиления вызова.
 
 ## Выводы
 
-Абзац умных слов о том, что было сделано и что было узнано.
+В этой работе я установил нужное програмное обеспечение и поразмышлял каких ML-агентов можно добавить в игру "СПАСИТИ РТФ : Выживание"
 
 | Plugin | README |
 | ------ | ------ |
-| Dropbox | [plugins/dropbox/README.md][PlDb] |
 | GitHub | [plugins/github/README.md][PlGh] |
-| Google Drive | [plugins/googledrive/README.md][PlGd] |
-| OneDrive | [plugins/onedrive/README.md][PlOd] |
-| Medium | [plugins/medium/README.md][PlMe] |
-| Google Analytics | [plugins/googleanalytics/README.md][PlGa] |
 
 ## Powered by
 
