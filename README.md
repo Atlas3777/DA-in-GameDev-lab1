@@ -190,19 +190,19 @@ public class work : MonoBehaviour
         if (dataSet.ContainsKey(i) && dataSet[i] > 0 && statusStart == false && i != dataSet.Count)
         {
             StartCoroutine(PlaySelectAudioGood());
-            Debug.Log("Здоровье увеличилось на " + dataSet[i].ToString());
+            Debug.Log($"{i} - Здоровье увеличилось на {Math.Abs(dataSet[i])}");
         }
 
         if (dataSet.ContainsKey(i) && dataSet[i] == 0 && statusStart == false && i != dataSet.Count)
         {
             StartCoroutine(PlaySelectAudioNormal());
-            Debug.Log("Здоровье не изменилось");
+            Debug.Log($"{i} - Здоровье не изменилось");
         }
 
         if (dataSet.ContainsKey(i) && dataSet[i] < 0 && statusStart == false && i != dataSet.Count)
         {
             StartCoroutine(PlaySelectAudioBad());
-            Debug.Log("Здоровье уменьшилось на " + Math.Abs(dataSet[i]).ToString());
+            Debug.Log($"{i} - Здоровье уменьшилось на {Math.Abs(dataSet[i])}");
         }
     }
 
@@ -290,7 +290,8 @@ public class work : MonoBehaviour
     }
 }
 ```
-![image](https://github.com/user-attachments/assets/b5777b33-de52-4e2e-8c3b-aa1a5e662c39)
+![image](https://github.com/user-attachments/assets/d4bedc18-2aee-434e-9201-a613e5f41b94)
+
 
 ## Выводы
 На практике была реализована передача данных из Google Sheets в Unity с использованием Python. Для этого:  
