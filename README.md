@@ -290,6 +290,7 @@ public class work : MonoBehaviour
     }
 }
 ```
+![image](https://github.com/user-attachments/assets/b5777b33-de52-4e2e-8c3b-aa1a5e662c39)
 
 ## Выводы
 На практике была реализована передача данных из Google Sheets в Unity с использованием Python. Для этого:  
