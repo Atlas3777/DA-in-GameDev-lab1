@@ -129,25 +129,156 @@ print(f"Данные успешно записаны в таблицу: {sh.url}
 ##### Динамика здоровья:
 
 - Здоровье снижается скачками при атаках зомби.
-- Восстановление происходит периодически через аптечки или вампиризм, но в зависимости от их доступности.
+- Восстановление происходит периодически через аптечки, вампиризм и регенерацию, но в зависимости от их доступности.
 - Если зомби атакуют часто, здоровье может быстро достигать 0, что создаёт высокий риск.
 ##### Недостатки реализации:
-
-- Эксплойт: Игрок может полагаться только на вампиризм и намеренно избегать покупок аптечек, что ломает баланс.
-- Перегрузка аптечками: Игрок может накопить много аптечек и восстанавливать здоровье мгновенно, избегая реального риска.
 - Нечёткий баланс: Урон зомби может быть слишком слабым или слишком сильным, что делает игру либо скучной, либо слишком сложной.
 
 ### Модификации для улучшения:
-###### Ограничение на использование аптечек:
-- Ввести время восстановления между применениями (например, 10 секунд).
-###### Балансировка вампиризма:
-- Установить фиксированный процент восстановления здоровья (например, 5–10% от урона).
-###### Прогрессия сложности:
-- Увеличивать урон зомби по мере увеличения волн, чтобы здоровье игрока стало более ценной переменной.
+ - Вместо 30 едениц здоровья сделать 3, так так урон у зрмби фиксированный - 10. Выживаемост остенется также 3 удара без прокачки, но игроку станет более понятно, сколько урона он выдержит. Под это изменить способы перки здоровье, добавивь шанс на срабатывания вампиризма(или фикс 1 хп за 15 убийств), +1 хп, реген 1 хп раз в 30 сек 
+- Прогрессия сложности: Увеличивать урон зомби по мере увеличения волн, чтобы здоровье игрока стало более ценной переменной.
+
+## Задание 3
+Настройте на сцене Unity воспроизведение звуковых файлов, описывающих динамику изменения выбранной переменной. Например, если выбрано здоровье главного персонажа вы можете выводить сообщения, связанные с его состоянием.
+
+```c#
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Networking;
+using SimpleJSON;
+using System;
+
+public class work : MonoBehaviour
+{
+    public AudioClip goodSpeak;
+    public AudioClip normalSpeak;
+    public AudioClip badSpeak;
+    private AudioSource selectAudio;
+    private Dictionary<int, float> dataSet = new Dictionary<int, float>();
+    private bool statusStart = false;
+    private int i = 1;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        StartCoroutine(GoogleSheets());
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (dataSet.ContainsKey(i) && dataSet[i] > 0 && statusStart == false && i != dataSet.Count)
+        {
+            StartCoroutine(PlaySelectAudioGood());
+            Debug.Log("Здоровье увеличилось на " + dataSet[i].ToString());
+        }
+
+        if (dataSet.ContainsKey(i) && dataSet[i] == 0 && statusStart == false && i != dataSet.Count)
+        {
+            StartCoroutine(PlaySelectAudioNormal());
+            Debug.Log("Здоровье не изменилось");
+        }
+
+        if (dataSet.ContainsKey(i) && dataSet[i] < 0 && statusStart == false && i != dataSet.Count)
+        {
+            StartCoroutine(PlaySelectAudioBad());
+            Debug.Log("Здоровье уменьшилось на " + Math.Abs(dataSet[i]).ToString());
+        }
+    }
+
+    IEnumerator GoogleSheets()
+    {
+        UnityWebRequest curentResp = UnityWebRequest.Get("https://sheets.googleapis.com/v4/spreadsheets/14RSOAxw1mm4a4j-Xl_9-fDjyjH-trf0hZd1LNrxqT2c/values/Лист2?key=AIzaSyDz74ovY2L7TNbHbQEuAUmn9vNWFIjg4XA");
+        yield return curentResp.SendWebRequest();
+
+        if (curentResp.result != UnityWebRequest.Result.Success)
+        {
+            Debug.LogError($"Error fetching data: {curentResp.error}");
+            yield break;
+        }
+
+        string rawResp = curentResp.downloadHandler.text;
+
+        if (string.IsNullOrEmpty(rawResp))
+        {
+            Debug.LogError("Response is empty.");
+            yield break;
+        }
+
+        var rawJson = JSON.Parse(rawResp);
+
+        if (rawJson == null || !rawJson.HasKey("values"))
+        {
+            Debug.LogError("Invalid JSON structure or missing 'values' key.");
+            yield break;
+        }
+
+        var values = rawJson["values"];
+
+        for (int i = 1; i < values.Count; i++) // Пропуск заголовков
+        {
+            try
+            {
+                var selectRow = values[i].AsArray; // Проверяем как массив
+                if (selectRow.Count >= 5) // Убедимся, что строка содержит минимум 5 элементов
+                {
+                    int key = int.Parse(selectRow[0]);
+                    float value = float.Parse(selectRow[4]);
+                    dataSet.Add(key, value);
+                }
+                else
+                {
+                    Debug.LogWarning($"Skipping row {i}, insufficient data.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"Error processing row {i}: {ex.Message}");
+            }
+        }
+    }
+
+    IEnumerator PlaySelectAudioGood()
+    {
+        statusStart = true;
+        selectAudio = GetComponent<AudioSource>();
+        selectAudio.clip = goodSpeak;
+        selectAudio.Play();
+        yield return new WaitForSeconds(1);
+        statusStart = false;
+        i++;
+    }
+    IEnumerator PlaySelectAudioNormal()
+    {
+        statusStart = true;
+        selectAudio = GetComponent<AudioSource>();
+        selectAudio.clip = normalSpeak;
+        selectAudio.Play();
+        yield return new WaitForSeconds(4);
+        statusStart = false;
+        i++;
+    }
+    IEnumerator PlaySelectAudioBad()
+    {
+        statusStart = true;
+        selectAudio = GetComponent<AudioSource>();
+        selectAudio.clip = badSpeak;
+        selectAudio.Play();
+        yield return new WaitForSeconds(1.5f);
+        statusStart = false;
+        i++;
+    }
+}
+```
 
 ## Выводы
+На практике была реализована передача данных из Google Sheets в Unity с использованием Python. Для этого:  
+1. Настроено взаимодействие Python с Google Sheets API через библиотеку `gspread`.  
+2. Данные, описывающие игровую переменную (например, здоровье), были записаны и обновлены в таблице Google Sheets.  
+3. С помощью Unity и Python было продемонстрировано, как данные из Google Sheets могут быть считаны и интегрированы в игровой процесс, например, для динамического изменения характеристик игры.
 
-В этой работе я установил нужное програмное обеспечение и поразмышлял каких ML-агентов можно добавить в игру "СПАСИТИ РТФ : Выживание"
+
 
 | Plugin | README |
 | ------ | ------ |
